@@ -53,7 +53,9 @@ const questions = [
 function init() {
     inquirer.prompt(questions).then((answers) => {
         console.log(answers);
-        const Circle = require('./lib/circle');
+        const Shape = require(`./lib/Shape`);
+        const SVGContent = new Shape(answers);
+        console.log(SVGContent.render());
     });
 }
 
