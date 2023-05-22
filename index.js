@@ -39,7 +39,7 @@ const questions = [
 
 function init() {
     inquirer.prompt(questions).then( (answers) =>{
-
+        console.log(answers);
     });
 }
 
