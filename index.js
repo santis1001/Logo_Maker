@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 
-const color = require('./lib/svg-colors.json');
+const color = require('./assets/Json/svg-colors.json');
 
 const questions = [
     {
@@ -27,8 +27,9 @@ const questions = [
         name: 'L_TextColor',
         message: 'Input the Hexadecimal Color without the #. (Ex: ADADAD)',
         when: (answers) => answers.L_TextColorSelection === 'Hexadecimal Color',
+        filter: (input) => `#${input}`,
         validate: (input) => {
-            const colorReg = /^([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+            const colorReg = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
             if (!colorReg.test(input)) {
                 return 'Please enter a valid hexadecimal color.';
             }
@@ -59,8 +60,9 @@ const questions = [
         name: 'L_Color',
         message: 'Input the Hexadecimal Color without the #. (Ex: ADADAD)',
         when: (answers) => answers.L_ColorSelection === 'Hexadecimal Color',
+        filter: (input) => `#${input}`,
         validate: (input) => {
-            const colorReg = /^([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+            const colorReg = /^#([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
             if (!colorReg.test(input)) {
                 return 'Please enter a valid hexadecimal color.';
             }
@@ -78,11 +80,16 @@ const questions = [
 
 function init() {
     inquirer.prompt(questions).then((answers) => {
-        console.log(answers);
         const svgShape = require(`./lib/${answers.L_shape}`);
         const SVGContent = new svgShape(answers);
-        console.log(SVGContent.render());
+        SaveSVG(SVGContent.render());
     });
+}
+
+function SaveSVG(content) {
+    fs.writeFile('./examples/logo.svg', content, (err) =>
+        err ? console.log(err) : console.log('Successfully created logo.svg!')
+    );
 }
 
 init();
