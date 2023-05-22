@@ -7,14 +7,40 @@ const color = require('./lib/svg-colors.json');
 const questions = [
     {
         type: 'input',
-        name: 'L_text',
+        name: 'L_Text',
         message: 'Enter the text that will be displayed in the logo.',
         validate: (input) => {
-            if (input.length > 3) {
+            if (input.length > 3 && input.length == 0) {
                 return 'Please enter up to 3 characters.';
             }
             return true;
         }
+    },
+    {
+        type: 'list',
+        name: 'L_TextColorSelection',
+        message: 'Select the method you would like to use to apply color to the text.',
+        choices: ['Predefined Color Keywords', 'Hexadecimal Color']
+    },
+    {
+        type: 'input',
+        name: 'L_TextColor',
+        message: 'Input the Hexadecimal Color without the #. (Ex: ADADAD)',
+        when: (answers) => answers.L_TextColorSelection === 'Hexadecimal Color',
+        validate: (input) => {
+            const colorReg = /^([0-9A-Fa-f]{3}|[0-9A-Fa-f]{6})$/;
+            if (!colorReg.test(input)) {
+                return 'Please enter a valid hexadecimal color.';
+            }
+            return true;
+        },
+    },
+    {
+        type: 'list',
+        name: 'L_TextColor',
+        message: 'Select a text color from the Predefine SVG Colors List',
+        choices: color,
+        when: (answers) => answers.L_TextColorSelection === 'Predefined Color Keywords',
     },
     {
         type: 'list',
@@ -25,7 +51,7 @@ const questions = [
     {
         type: 'list',
         name: 'L_ColorSelection',
-        message: 'Select wich way to apply color youll like to use. ',
+        message: 'Select the method you would like to use to apply color to the shape.',
         choices: ['Predefined Color Keywords', 'Hexadecimal Color']
     },
     {
@@ -53,8 +79,8 @@ const questions = [
 function init() {
     inquirer.prompt(questions).then((answers) => {
         console.log(answers);
-        const Shape = require(`./lib/Shape`);
-        const SVGContent = new Shape(answers);
+        const svgShape = require(`./lib/${answers.L_shape}`);
+        const SVGContent = new svgShape(answers);
         console.log(SVGContent.render());
     });
 }
