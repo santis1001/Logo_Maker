@@ -1,13 +1,7 @@
 # Logo_Maker
 10 Challenge
 ## Description
-
-## Table of Content
-- [Installation](#installation)
-- [Usage](#usage)
-- [License Information](#License)
-- [Contribution](#contribution)
-- [Test](#test)
+The objective of this challenge is to enhance our skills in utilizing object-oriented programming (OOP) concepts while incorporating the `Inquirer` package to collect user input from the command line. By leveraging the information gathered through Inquirer, we will dynamically create objects based on the provided parameters, which are: text, text color, shape, and shape color.
 
 ### User Story
 
@@ -40,12 +34,21 @@ THEN I am shown a 300x200 pixel image that matches the criteria I entered
 
 
 ## Generated SVG File (examples)
-![Triangle SVG file](./examples/logo.svg)
 
-![Square SVG file](./examples/logo.svg)
+### Triangle Generation Prompt
+![Triangle SVG Prompt](./assets/Images/triangle_prompt.JPG)
+### SVG
+![Triangle SVG file](./assets/Images/triangle.svg)
 
-![Circle SVG file](./examples/logo.svg)
+### Square Generation Prompt
+![Square SVG Prompt](./assets/Images/square_prompt.JPG)
+### SVG
+![Square SVG file](./assets/Images/square.svg)
+
+### Circle Generation Prompt
+![Circle SVG Prompt](./assets/Images/circle_prompt.JPG)
+### SVG
+![Circle SVG file](./assets/Images/circle.svg)
 
 ## Video
-![]()
-
+![![SVG Logo Generator Video]()]()
