@@ -88,7 +88,6 @@ const questions = [
 function init() {
     inquirer.prompt(questions).then((answers) => {
         const svgShape = require(`./lib/${answers.L_shape}`);
-        console.log(answers);
         const SVGContent = new svgShape(answers);
         SaveSVG(SVGContent.render());
     });
