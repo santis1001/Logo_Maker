@@ -29,12 +29,62 @@ AND the output text "Generated logo.svg" is printed in the command line
 WHEN I open the `logo.svg` file in a browser
 THEN I am shown a 300x200 pixel image that matches the criteria I entered
 ```
-## Code Snippets
-### Overall functionality
+# Code Snippets
+## Overall functionality
+The main function uses the inquirer pachage to prompt the user with a series of questions define in the question object array. The `inquirer.prompt()` method returns a promise that resolves with the user's answers. Which then the selected shape is extracted from answers object. Using the shape selected from the answers to import a module dynamically and instanciate the class, and pass the answers to the class constructor invoke the `render()` function and pass it to the `SaveSVG()` function.
+```js
+function init() {
+    inquirer.prompt(questions).then((answers) => {
+        const svgShape = require(`./lib/${answers.L_shape}`);
+        const SVGContent = new svgShape(answers);
+        SaveSVG(SVGContent.render());
+    });
+}
+```
+When the class constructor is imported and instantiated the answers are passed as parameters and this are sent to the Shapes inheritance which contains the variable and functions that repeats within all the shapes. The Square, Triangle, and Circle classes have two functino the returns unique values for each shape.
+`renderShape()` returns the `<polygon>` element with the necessary parameters for each shape
+`renderText()` returns the `<text>` element containing the texts' parameters. This is considered a unique value because to be able to allign the text within the shape is necessary to adjust the `y` value for each shape.
+```js
+const Shapes = require("./Shape");
+class Square extends Shapes{
+    constructor(info){
+        super(info.L_Text, info.L_TextColor, info.L_Color);        
+    }
+    renderShape(){
+        return `<polygon points="50,0 250,0 250,200 50,200" style="fill:${this.Color};"/>`
+    }
+    renderText(){
+        return `<text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" fill="${this.Text_Color}" font-size="80">${this.Text}</text>`
+    }    
+}
+```
+The Shape class inherits the variable and functions the repeats within each shape: text,text color, shape color. It inherits three functions:
+`setText()` this function sets the text parameters, string value and color.
+`setColor()` this function sets the shapes color.
+`render()` render() function outputs the content necessary for the SVG file body.
+```js
+class Shape{
+    constructor(text,textColor, shapeColor){
+        this.Text = text;
+        this.Text_Color = textColor;
+        this.Color = shapeColor;        
+    }
+    setText(text,textcolor){
+        this.Text = text;
+        this.Text_Color = textcolor;
+    }
+    SetColor(Color){
+        this.Color = Color;
+    }
+    render(){
+        return `<svg xmlns="http://www.w3.org/2000/svg" width="300" height="200">\n\t${this.renderShape()}\n\t${this.renderText()}\n</svg>`;
+    }
+}
+```
+## Test
 
 
 ## Generated SVG File (examples)
-
 ### Triangle Generation Prompt
 ![Triangle SVG Prompt](./assets/Images/triangle_prompt.JPG)
 ### SVG

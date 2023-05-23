@@ -1,9 +1,11 @@
+// Required Packages
 const inquirer = require('inquirer');
 const fs = require('fs');
 
-
+// Returns the list containing all the predefined color keywords
 const color = require('./assets/Json/svg-colors.json');
 
+//Inquirer questions Object Array
 const questions = [
     {
         type: 'input',
@@ -78,18 +80,28 @@ const questions = [
     },
 ]
 
+// Make the question prompts
+// Using the shape selected from the answers to import
+// a module dynamically and instanciate the class, and 
+// pass the answers to the class constructor 
+// invoke the render() function and pass it to the SaveSVG() function
 function init() {
     inquirer.prompt(questions).then((answers) => {
         const svgShape = require(`./lib/${answers.L_shape}`);
+        console.log(answers);
         const SVGContent = new svgShape(answers);
         SaveSVG(SVGContent.render());
     });
 }
 
+// Gets the content for the SVG element and saves it as logo.svg
+// then the callback function that will be executed once the writing
+// operation is complete
 function SaveSVG(content) {
     fs.writeFile('./examples/logo.svg', content, (err) =>
         err ? console.log(err) : console.log('Successfully created logo.svg!')
     );
 }
 
+// Function call to initialize app
 init();
