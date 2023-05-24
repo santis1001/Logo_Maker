@@ -35,7 +35,7 @@ THEN I am shown a 300x200 pixel image that matches the criteria I entered
 node index.js
 ```
 ### Overall functionality
-The main function uses the inquirer pachage to prompt the user with a series of questions define in the question object array. The `inquirer.prompt()` method returns a promise that resolves with the user's answers. Which then the selected shape is extracted from answers object. Using the shape selected from the answers to import a module dynamically and instanciate the class, and pass the answers to the class constructor invoke the `render()` function and pass it to the `SaveSVG()` function.
+The main function uses the inquirer package to prompt the user with a series of questions define in the question object array. The `inquirer.prompt()` method returns a promise that resolves with the user's answers. Which then the selected shape is extracted from answers object. Using the shape selected from the answers to import a module dynamically and instanciate the class, and pass the answers to the class constructor invoke the `render()` function and pass it to the `SaveSVG()` function.
 ```js
 function init() {
     inquirer.prompt(questions).then((answers) => {
@@ -87,6 +87,7 @@ class Shape{
 ```
 ## Test
 ### Run the text
+Utilize the `jest` package to run test on the shape classes and methods.
 ```
 npx jest
 ```
