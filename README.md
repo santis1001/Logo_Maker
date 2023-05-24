@@ -29,8 +29,12 @@ AND the output text "Generated logo.svg" is printed in the command line
 WHEN I open the `logo.svg` file in a browser
 THEN I am shown a 300x200 pixel image that matches the criteria I entered
 ```
-# Code Snippets
-## Overall functionality
+## Usage
+### Run the app
+```
+node index.js
+```
+### Overall functionality
 The main function uses the inquirer pachage to prompt the user with a series of questions define in the question object array. The `inquirer.prompt()` method returns a promise that resolves with the user's answers. Which then the selected shape is extracted from answers object. Using the shape selected from the answers to import a module dynamically and instanciate the class, and pass the answers to the class constructor invoke the `render()` function and pass it to the `SaveSVG()` function.
 ```js
 function init() {
@@ -82,7 +86,65 @@ class Shape{
 }
 ```
 ## Test
+### Run the text
+```
+npx jest
+```
+### What is Tested
+For testing the differnt shape classes, 3 test.js files are used. `triangle.test.js`, `square.test.js` and `circule.test.js` are organized into different sections, each focusing on specific aspects of the class.
 
+* `Instantiate` verifies that an instance of the Triangle class is created correctly.
+
+* `Predefine Color Keywords` tests the setting of `shape color` and `text properties` using `predefined color keywords`. It checks whether the `setColor()` method correctly sets the shape color of the triangle and whether the `setText()` method correctly sets the text and text color.
+* `Hexadecimal Color` tests the setting of `shape color` and `text properties` using **hexadecimal color codes**. It verifies that the `setColor()` method correctly sets the shape color using a **hexadecimal color code**, and the `setText()` method correctly sets the text and text color using a **hexadecimal color code**.
+
+<sup> *This tests are repeated for each shape.
+
+### Test Code Example
+```js
+describe('Triangle', () => {
+    describe('Instantiate', () => {
+        it('should be an instance of Triangle class', () => {
+            const triangle = new Triangle(answermock);
+            expect(triangle).toBeInstanceOf(Triangle);
+        });
+    });
+    describe('Predefine Color Keywords', ()=> {
+        describe('Polygon Element:\nShape Color: Red', () => {
+            it('Should set shape color Values correctly', () => {
+                const triangle = new Triangle(answermock);
+                triangle.setColor('red');
+                expect(triangle.renderShape()).toBe('<polygon points="150,0 275,200 25,200" style="fill:red;"/>');
+            });
+        });
+        describe('Text Element:\nText: Ts1\nText Color: blue\nShape Color: Red', () => {
+            it('Should set Text and text color Values correctly', () => {
+                const triangle = new Triangle(answermock);
+                triangle.setText('Ts1', 'blue');
+                expect(triangle.renderText()).toBe('<text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" fill="blue" font-size="75">Ts1</text>');
+            });
+        });
+    });
+    describe('Hexadecimal Color', ()=> {
+        describe('Polygon Element:\nShape Color: Red(FF0000)', () => {
+            it('Should set shape color Values correctly', () => {
+                const triangle = new Triangle(answermock);
+                triangle.setColor('#FF0000');
+                expect(triangle.renderShape()).toBe('<polygon points="150,0 275,200 25,200" style="fill:#FF0000;"/>');
+            });
+        });
+        describe('Text Element:\nText: Ts2\nText Color: blue(0000FF)', () => {
+            it('Should set Text and text color Values correctly', () => {
+                const triangle = new Triangle(answermock);
+                triangle.setText('Ts2', '#0000FF');
+                expect(triangle.renderText()).toBe('<text x="50%" y="80%" dominant-baseline="middle" text-anchor="middle" fill="#0000FF" font-size="75">Ts2</text>');
+            });
+        });
+    });
+});
+```
+### Test Successfully Passed
+![Test Successfully Passed](./assets/Images/Test_Successfully_Passed.JPG)
 
 ## Generated SVG File (examples)
 ### Triangle Generation Prompt
@@ -101,4 +163,4 @@ class Shape{
 ![Circle SVG file](./assets/Images/circle.svg)
 
 ## Video
-![![SVG Logo Generator Video]()]()
+[![SVG Logo Generator Video](./assets/Images/video_preview.png)](https://1drv.ms/v/s!Asj9JhD05ulbsmX9vv-NrVazJf3s?e=akXML8)
